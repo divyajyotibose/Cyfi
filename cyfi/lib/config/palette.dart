@@ -19,7 +19,8 @@ class palette{
 
   static TextStyle body = const TextStyle(
     fontSize: 22,
-    fontWeight: FontWeight.normal, 
+    fontWeight: FontWeight.normal,
+
   );
 
 

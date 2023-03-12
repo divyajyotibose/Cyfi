@@ -1,23 +1,22 @@
 import 'package:cyfi/pages/AbuseIPDB.dart';
-import 'package:cyfi/pages/Home.dart';
 import 'package:cyfi/pages/SearchDB.dart';
 import 'package:cyfi/pages/VirusTotal.dart';
-import 'package:cyfi/pages/searchResults.dart';
+import 'package:cyfi/pages/WhatsMyIP.dart';
 import 'package:flutter/material.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 
-void main() {
-  runApp( MaterialApp(
+Future<void> main() async {
+
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: '/',
+    initialRoute: '/search',
     routes: {
-      '/':(context)=>Home(),
-      '/AbuseIPDB':(context)=>AbuseIPDB(),
-      '/search':(context)=>SearchDB(),
-      "/VirusTotal":(context)=>VirusTotal(),
+      '/AbuseIPDB': (context) => AbuseIPDB(),
+      '/search': (context) => SearchDB(),
+      "/VirusTotal": (context) => VirusTotal(),
+      "/WIP":(context)=>WhatsMyIP(),
     },
-  
   ));
 }
-
-
-
