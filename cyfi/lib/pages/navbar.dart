@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cyfi/config/palette.dart';
+import 'package:cyfi/config/Palette.dart';
 
 import 'SearchDB.dart';
-
 
 class navbar extends StatefulWidget {
   final ind;
@@ -13,25 +12,23 @@ class navbar extends StatefulWidget {
 }
 
 class _navbarState extends State<navbar> {
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    if(index==0){
+    if (index == 0) {
       Navigator.pushReplacementNamed(context, "/AbuseIPDB");
-    }
-    else if (index == 1) {
+    } else if (index == 1) {
       Navigator.pushReplacementNamed(context, "/VirusTotal");
-    }
-    else if (index == 2) {
+    } else if (index == 2) {
       Navigator.pushReplacementNamed(context, "/WIP");
-    }
-    else if (index == 3) {
+    } else if (index == 3) {
       Navigator.pushReplacementNamed(context, "/search");
     }
   }
+
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const SearchDB(),
@@ -40,7 +37,8 @@ class _navbarState extends State<navbar> {
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -49,21 +47,22 @@ class _navbarState extends State<navbar> {
       },
     );
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    _selectedIndex=widget.ind;
+    _selectedIndex = widget.ind;
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: Palette.mainPadding,
       child: BottomNavigationBar(
-        fixedColor: palette.selColor,
-
+        fixedColor: Palette.light,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: palette.bgColor,
+            backgroundColor: Palette.accentColor,
             icon: Image.asset(
               "assets/index-removebg1-preview.png",
               width: 30,
@@ -72,7 +71,7 @@ class _navbarState extends State<navbar> {
             label: "AbDB",
           ),
           BottomNavigationBarItem(
-            backgroundColor: palette.bgColor,
+            backgroundColor: Palette.accentColor,
             icon: Image.asset(
               "assets/vt_icon-removebg-preview.png",
               width: 30,
@@ -81,15 +80,21 @@ class _navbarState extends State<navbar> {
             label: "VT",
           ),
           BottomNavigationBarItem(
-            backgroundColor: palette.bgColor,
+            backgroundColor: Palette.accentColor,
             icon: Image.asset(
-              "assets/wip-removebg-preview.png", width: 30, height: 30,),
+              "assets/wip-removebg-preview.png",
+              width: 30,
+              height: 30,
+            ),
             label: "WIP",
           ),
           BottomNavigationBarItem(
-            backgroundColor: palette.bgColor,
-            icon: const Icon(Icons.search,size: 30,)
-            , label: "Search",
+            backgroundColor: Palette.accentColor,
+            icon: const Icon(
+              Icons.search,
+              size: 30,
+            ),
+            label: "Search",
           ),
         ],
         currentIndex: _selectedIndex,
