@@ -1,6 +1,6 @@
 import 'package:cyfi/config/palette.dart';
 import 'package:cyfi/pages/apiCall.dart';
-import 'package:cyfi/pages/loadingPage.dart';
+import 'package:cyfi/pages/loadpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -70,13 +70,12 @@ class _searchResultsState extends State<searchResults> {
     double height = MediaQuery. of(context). size. height;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text("Search Results",style: TextStyle(color: palette.barTextColor),),
         centerTitle: true,
         backgroundColor: palette.barColor,
         iconTheme: IconThemeData(color: palette.barTextColor),),
-      body: isloading?Center(
-          child: Container(child: SpinKitSquareCircle(color: palette.barColor,),color: Color(0xff14213d),)
-      ):Center(
+      body: isloading?loadpage():Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(

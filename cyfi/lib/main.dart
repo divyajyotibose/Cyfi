@@ -13,10 +13,10 @@ Future<void> main() async {
     debugShowCheckedModeBanner: false,
     initialRoute: '/search',
     routes: {
-      '/AbuseIPDB': (context) => AbuseIPDB(),
-      '/search': (context) => SearchDB(),
-      "/VirusTotal": (context) => VirusTotal(),
-      "/WIP":(context)=>WhatsMyIP(),
+      '/AbuseIPDB': (context) => const AbuseIPDB(),
+      '/search': (context) => const SearchDB(),
+      "/VirusTotal": (context) => const VirusTotal(),
+      "/WIP":(context)=>const WhatsMyIP(),
     },
   ));
 }

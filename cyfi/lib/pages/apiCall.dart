@@ -45,6 +45,7 @@ class apiCall{
       Response response=await get(endpoint2,headers: headers2);
       var res=jsonDecode(response.body);
       Map data=await res["data"]["attributes"];
+      print(data);
       network=data["network"].toString();
       country=data["country"];
       AutonomousSystemLabel=data["as_owner"];

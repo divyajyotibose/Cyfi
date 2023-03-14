@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cyfi/pages/loadpage.dart';
+import 'package:cyfi/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
@@ -20,7 +22,7 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
   List keys=[],values=[];
   int _selectedIndex = 2;
   static String apikey3 = "f9d2272a01b3aa63a382f26e6cd71651";
-  String? isproxy="",status="",proxy_type="",tor="",text="",lookup1="",lookup2="",whois_ip="";
+  String? isproxy="",status="1",proxy_type="",tor="",text="",lookup1="",lookup2="",whois_ip="";
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -51,7 +53,6 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
   }
   Future<void> getWhois() async {
     whois_ip=proxy.text;
-    bool d;
     Response response=await get(Uri.parse("https://api.whatismyip.com/domain-black-list.php?key=$apikey3&input=$whois_ip&output=json"));
     var data=jsonDecode(response.body);
     print(data);
@@ -91,44 +92,17 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "WhatsMyIP", style: TextStyle(color: palette.barTextColor),),
+          "WhatsMyIP"),
         titleTextStyle: palette.mainTitle,
         backgroundColor: palette.barColor,
         centerTitle: true,
-        iconTheme: IconThemeData(color: palette.barTextColor),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: palette.barColor,
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/index-removebg-preview.png", width: 30, height: 30,),
-            label: "AbDB",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/vt_icon-removebg-preview.png", width: 30, height: 30,),
-            label: "VT",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/wip-removebg-preview.png", width: 30, height: 30,),
-            label: "WIP",
-          ),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.search,size: 30,),
-              label: "Search"
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
-      body:isloading?Center(
-          child: Container(child: SpinKitSquareCircle(color: palette.barColor,),color: Color(0xff14213d),)
-      )
+      backgroundColor: palette.bgColor,
+      // backgroundColor: palette.bgColor,
+      bottomNavigationBar: navbar(ind: _selectedIndex,),
+      body:isloading?loadpage()
           :Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(30.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,9 +110,11 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
               TextField(
                 controller: proxy,
                 decoration: InputDecoration(
+                    fillColor: palette.searchBarColor,
+                    filled: true,
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 15),
-                    hintText: "Search Proxy",
+                    hintText: "Search",
                     suffixIcon: IconButton(
                       onPressed: () {
                         try {
@@ -163,10 +139,10 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
               const SizedBox(height: 13,),
               Center(
                 child: Container(
-                  height: 0.72*height,
+                  height: 0.635*height,
                   width: 0.97*width,
                   decoration: BoxDecoration(
-                      color: palette.bgColor,
+                      color: palette.searchBarColor,
                       borderRadius: BorderRadius.circular(20)
                   ),
                   child: Padding(
@@ -174,7 +150,7 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          (status != null)?Text(""):Column(
+                          !(status == "ok")?const Text(""):Column(
                         children: [
                           const Text("Proxy Check",textAlign: TextAlign.center,style:TextStyle(fontWeight: FontWeight.bold),),
                           produce("IP Address", text!),
@@ -184,7 +160,7 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
                               produce("Tor Node", tor!),
                         ],
                       ),
-                          SizedBox(height: 13,),
+                          const SizedBox(height: 13,),
                           Container(
                             child: ListView.builder(
                                 shrinkWrap: true,
@@ -216,18 +192,17 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
   }
   Card produce(String label,String val){
     return Card(
-      elevation:0,
       child: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-            color:const Color(0xFFF3E5D4),
+            color:palette.cardColor,
             borderRadius: BorderRadius.circular(5)
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(child: Text("$label")),
-            Expanded(child: Text("$val",textAlign: TextAlign.right,)),
+            Expanded(child: Text(label)),
+            Expanded(child: Text(val,textAlign: TextAlign.right,)),
           ],
         ),
       ),
