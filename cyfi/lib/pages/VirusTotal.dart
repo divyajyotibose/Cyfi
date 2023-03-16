@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cyfi/pages/loadpage.dart';
+import 'package:cyfi/pages/message.dart';
 import 'package:cyfi/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cyfi/config/Palette.dart';
@@ -14,7 +15,7 @@ class VirusTotal extends StatefulWidget {
   State<VirusTotal> createState() => _VirusTotalState();
 }
 
-class _VirusTotalState extends State<VirusTotal> {
+class _VirusTotalState extends State<VirusTotal>{
   List l = [];
   int _selectedIndex = 1;
   List<String> rtype = [], rname = [], ttl = [], value = [];
@@ -63,12 +64,11 @@ class _VirusTotalState extends State<VirusTotal> {
       appBar: AppBar(
         title: Text(
           "VirusTotal",
-          style: TextStyle(color: Palette.light),
         ),
         titleTextStyle: Palette.mainTitle,
         backgroundColor: Palette.accentColor,
         centerTitle: true,
-        iconTheme: IconThemeData(color: Palette.light),
+        elevation: 0,
       ),
       backgroundColor: Palette.accentColor,
       bottomNavigationBar: navbar(
@@ -78,7 +78,7 @@ class _VirusTotalState extends State<VirusTotal> {
           ? loadpage()
           : SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -92,10 +92,15 @@ class _VirusTotalState extends State<VirusTotal> {
                           hintText: "Search Domain",
                           suffixIcon: IconButton(
                             onPressed: () {
-                              setState(() {
-                                isloading = true;
-                              });
-                              searchData();
+                              if(domain.text==""){
+                                mesage(context: context).box("Error", "Please enter a valid domain");
+                              }
+                              else {
+                                setState(() {
+                                  isloading = true;
+                                });
+                                searchData();
+                              }
                             },
                             icon: const Icon(Icons.search),
                           ),
@@ -109,7 +114,7 @@ class _VirusTotalState extends State<VirusTotal> {
                     Center(
                       child: SingleChildScrollView(
                         child: Container(
-                          height: height * 0.655,
+                          height: height*0.655,
                           width: width * 0.97,
                           decoration: BoxDecoration(
                             color: Palette.accentSubColor,

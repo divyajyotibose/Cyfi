@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cyfi/pages/FileOperations.dart';
 import 'package:cyfi/pages/MultiCall.dart';
 import 'package:cyfi/pages/VirusTotal.dart';
+import 'package:cyfi/pages/message.dart';
 import 'package:cyfi/pages/navbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,6 @@ class AbuseIPDB extends StatefulWidget {
 
 class _AbuseIPDBState extends State<AbuseIPDB> {
   String? experiment = "";
-  bool _visible = false;
   FilePickerResult? result;
   String? _fileName;
   PlatformFile? pickedFile;
@@ -51,36 +51,10 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
     }
   }
 
-  void _scaleDialog() {
+  void _scaleDialog(BuildContext context) {
     isLoading
-        ? const Text("")
-        : showGeneralDialog(
-            context: context,
-            pageBuilder: (ctx, a1, a2) {
-              return Container();
-            },
-            transitionBuilder: (ctx, a1, a2, child) {
-              var curve = Curves.easeInOut.transform(a1.value);
-              return Transform.scale(
-                scale: curve,
-                child: AlertDialog(
-                  title: const Text("Status"),
-                  content: const Text("Your file has been downloaded"),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          "Ok",
-                          style: TextStyle(color: Colors.red, fontSize: 17),
-                        ))
-                  ],
-                ),
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          );
+        ? mesage(context:context).box("Status","Your file is downloading")
+        : mesage(context:context).box("Status","Your file has been downloaded");
   }
 
   @override
@@ -92,7 +66,6 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
         elevation: 0,
         title: Text(
           "AbuseIPDB",
-          style: TextStyle(color: Palette.light),
         ),
         titleTextStyle: Palette.mainTitle,
         backgroundColor: Palette.accentColor,
@@ -100,7 +73,7 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
         iconTheme: IconThemeData(color: Palette.light),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
         child: Container(
           decoration: BoxDecoration(
               color: Palette.accentSubColor,
@@ -121,7 +94,7 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
                     ElevatedButton.icon(
                       icon: Icon(
                         Icons.file_upload,
-                        color: Palette.light,
+                        color: Palette.accentSubColor,
                       ),
                       onPressed: () async {
                         pickFile();
@@ -129,7 +102,7 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
                       label: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Text("Upload",
-                            style: TextStyle(color: Palette.light)),
+                            style: TextStyle(color: Palette.accentSubColor)),
                       ),
                       style: TextButton.styleFrom(
                           backgroundColor: Palette.mainColor),
@@ -150,7 +123,7 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
                       ElevatedButton.icon(
                         icon: Icon(
                           Icons.file_download,
-                          color: Palette.light,
+                          color: Palette.accentSubColor,
                         ),
                         onPressed: () async {
                           setState(() {
@@ -158,12 +131,12 @@ class _AbuseIPDBState extends State<AbuseIPDB> {
                           });
                           MultiCall mc = MultiCall(file: fields);
                           isLoading = await mc.operation();
-                          _scaleDialog();
+                          _scaleDialog(context);
                         },
                         label: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Text("Download",
-                              style: TextStyle(color: Palette.light)),
+                              style: TextStyle(color: Palette.accentSubColor)),
                         ),
                         style: TextButton.styleFrom(
                             backgroundColor: Palette.mainColor),

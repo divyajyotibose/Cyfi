@@ -4,6 +4,8 @@ import 'package:cyfi/pages/searchResults.dart';
 import 'package:flutter/material.dart';
 import 'package:cyfi/config/Palette.dart';
 
+import 'message.dart';
+
 class SearchDB extends StatefulWidget {
   const SearchDB({super.key});
 
@@ -74,7 +76,26 @@ class _SearchDBState extends State<SearchDB> {
         ],
       );
     }
-
+    Route _createRoute(is1,is2,is3,ip) {
+      return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => searchResults(
+              ch1: is1,
+              ch2: is2,
+              ch3: is3,
+              text: ip),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300)
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.accentColor,
@@ -145,26 +166,25 @@ class _SearchDBState extends State<SearchDB> {
                               ),
                               produce(0, "AbuseIPDB", getColor, width),
                               produce(1, "VirusTotal", getColor, width),
-                              produce(2, "WhatsMyIP", getColor, width),
+                              produce(2, "WhatIsMyIP", getColor, width),
                               const SizedBox(
                                 height: 20,
                               ),
                               Center(
                                 child: TextButton(
                                   onPressed: () {
-                                    ip = ipAddress.text;
-                                    ipAddress.text = "";
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => searchResults(
-                                                ch1: isChecked[0],
-                                                ch2: isChecked[1],
-                                                ch3: isChecked[2],
-                                                text: ip)));
+                                    if(ipAddress.text==""){
+                                      mesage(context: context).box("Error", "Please enter a valid IP Address");
+                                    }else {
+                                      ip = ipAddress.text;
+                                      ipAddress.text = "";
+                                      Navigator.of(context).push(_createRoute(
+                                          isChecked[0], isChecked[1],
+                                          isChecked[2], ip));
+                                    }
                                   },
                                   style: TextButton.styleFrom(
-                                    backgroundColor: Palette.accentColor,
+                                    backgroundColor: Palette.mainColor,
                                   ),
                                   child: Padding(
                                     padding: Palette.mainPadding,
@@ -187,4 +207,5 @@ class _SearchDBState extends State<SearchDB> {
       ),
     );
   }
+
 }

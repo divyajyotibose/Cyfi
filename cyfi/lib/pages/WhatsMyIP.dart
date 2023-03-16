@@ -7,6 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
 import 'package:cyfi/config/Palette.dart';
 
+import 'message.dart';
+
 class WhatsMyIP extends StatefulWidget {
   const WhatsMyIP({Key? key}) : super(key: key);
 
@@ -90,10 +92,11 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text("WhatsMyIP"),
+        title: Text("WhatIsMyIP"),
         titleTextStyle: Palette.mainTitle,
         backgroundColor: Palette.accentColor,
         centerTitle: true,
+        elevation: 0,
       ),
       backgroundColor: Palette.accentColor,
       // backgroundColor: palette.bgColor,
@@ -103,7 +106,7 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
       body: isloading
           ? loadpage()
           : Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,11 +122,21 @@ class _WhatsMyIPState extends State<WhatsMyIP> {
                           suffixIcon: IconButton(
                             onPressed: () {
                               try {
-                                setState(() {
-                                  isloading = true;
-                                });
-                                getData();
-                                getWhois();
+                                if(proxy.text==""){
+                                  mesage(context: context).box("Error", "Please enter a valid IP Address");
+                                }
+                                else{
+                                  if(status!="ok"){
+                                    mesage(context: context).box("Error", "WhatIsMyIP is not available");
+                                  }
+                                  else {
+                                    setState(() {
+                                      isloading = true;
+                                    });
+                                    getData();
+                                    getWhois();
+                                  }
+                                }
                               } catch (e) {
                                 print(e);
                               }

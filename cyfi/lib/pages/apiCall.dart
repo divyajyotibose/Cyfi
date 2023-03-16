@@ -53,20 +53,25 @@ class apiCall{
       city=data["City"].toString();
       AutonomousSystemNumber=data["asn"].toString();
     }
-    if(ch3){
-      Response response=await get(Uri.parse("https://api.whatismyip.com/ip-address-lookup.php?key=$apikey3&input=$text&output=json"));
+    if(ch3) {
+      Response response = await get(Uri.parse(
+          "https://api.whatismyip.com/ip-address-lookup.php?key=$apikey3&input=$text&output=json"));
       print(response.body);
-      Map data=jsonDecode(response.body);
-      status=data["ip_address_lookup"][0]["status"].toString();
-      asn2=data["ip_address_lookup"][0]["asn"].toString();
-      country2=data["ip_address_lookup"][0]["country"].toString();
-      region=data["ip_address_lookup"][0]["region"].toString();
-      city=data["ip_address_lookup"][0]["city"].toString();
-      pincode=data["ip_address_lookup"][0]["postalcode"].toString();
-      isp2=data["ip_address_lookup"][0]["isp"].toString();
-      time=data["ip_address_lookup"][0]["time"].toString();
-      latitude=data["ip_address_lookup"][0]["latitude"].toString();
-      longitude=data["ip_address_lookup"][0]["longitude"].toString();
+
+        var data = jsonDecode(response.body);
+
+        status = data["ip_address_lookup"][0]["status"].toString();
+        asn2 = data["ip_address_lookup"][0]["asn"].toString();
+        country2 = data["ip_address_lookup"][0]["country"].toString();
+        region = data["ip_address_lookup"][0]["region"].toString();
+        city = data["ip_address_lookup"][0]["city"].toString();
+        pincode = data["ip_address_lookup"][0]["postalcode"].toString();
+        isp2 = data["ip_address_lookup"][0]["isp"].toString();
+        time = data["ip_address_lookup"][0]["time"].toString();
+        latitude = data["ip_address_lookup"][0]["latitude"].toString();
+        longitude = data["ip_address_lookup"][0]["longitude"].toString();
+
+
     }
   }
 

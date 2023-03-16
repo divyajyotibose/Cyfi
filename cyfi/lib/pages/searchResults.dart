@@ -4,6 +4,8 @@ import 'package:cyfi/pages/loadpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'message.dart';
+
 class searchResults extends StatefulWidget {
   final bool ch1;
   final bool ch2;
@@ -41,44 +43,48 @@ class _searchResultsState extends State<searchResults> {
       time = "";
   bool isloading = true;
   Future<void> setup() async {
-    apiCall db = apiCall(
-        ch1: widget.ch1, ch2: widget.ch2, ch3: widget.ch3, text: widget.text);
-    await db.getData();
-
-    setState(() {
-      if (widget.ch1) {
-        prop = db.prop;
-        text = db.text;
-        isp = db.isp;
-        domain = db.domain;
-        country = db.country;
-        usage = db.usage;
-        score = db.score;
-      }
-      if (widget.ch2) {
-        network = db.network;
-        AutonomousSystemLabel = db.AutonomousSystemLabel;
-        RegionalInternetRegistry = db.RegionalInternetRegistry;
-        country = db.country;
-        city = db.city;
-        AutonomousSystemNumber = db.AutonomousSystemNumber;
-      }
-      if (widget.ch3) {
-        status = db.status;
-        asn2 = db.asn2;
-        country2 = db.country2;
-        region = db.region;
-        city = db.city;
-        pincode = db.pincode;
-        isp2 = db.isp2;
-        time = db.time;
-        longitude = db.longitude;
-        latitude = db.latitude;
-      }
-    });
-    setState(() {
-      isloading = false;
-    });
+    try {
+      apiCall db = apiCall(
+          ch1: widget.ch1, ch2: widget.ch2, ch3: widget.ch3, text: widget.text);
+      await db.getData();
+      setState(() {
+        if (widget.ch1) {
+          prop = db.prop;
+          text = db.text;
+          isp = db.isp;
+          domain = db.domain;
+          country = db.country;
+          usage = db.usage;
+          score = db.score;
+        }
+        if (widget.ch2) {
+          network = db.network;
+          AutonomousSystemLabel = db.AutonomousSystemLabel;
+          RegionalInternetRegistry = db.RegionalInternetRegistry;
+          country = db.country;
+          city = db.city;
+          AutonomousSystemNumber = db.AutonomousSystemNumber;
+        }
+        if (widget.ch3) {
+          status = db.status;
+          asn2 = db.asn2;
+          country2 = db.country2;
+          region = db.region;
+          city = db.city;
+          pincode = db.pincode;
+          isp2 = db.isp2;
+          time = db.time;
+          longitude = db.longitude;
+          latitude = db.latitude;
+        }
+      });
+      setState(() {
+        isloading = false;
+      });
+    }
+    catch(e){
+      mesage(context: context).box("Error", "WhatIsMyIP is not available");
+    }
   }
 
   @override
@@ -96,23 +102,22 @@ class _searchResultsState extends State<searchResults> {
         elevation: 0,
         title: Text(
           "Search Results",
-          style: TextStyle(color: Palette.light),
         ),
+        titleTextStyle: Palette.mainTitle,
         centerTitle: true,
         backgroundColor: Palette.accentColor,
-        iconTheme: IconThemeData(color: Palette.light),
       ),
       body: isloading
           ? loadpage()
           : Center(
               child: Container(
-                height: height * 0.9,
+                height: height ,
                 width: width * 0.98,
                 decoration: BoxDecoration(
                     color: Palette.accentColor,
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: SingleChildScrollView(
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,10 +193,10 @@ class _searchResultsState extends State<searchResults> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Palette.accentSubColor,
                               ),
-                              child: Column(
+                              child: (status!="ok")?const Text("WhatIsMyIP is not available"):Column(
                                 children: [
                                   const Text(
-                                    "WhatsMyIP",
+                                    "WhatIsMyIP",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
@@ -241,7 +246,7 @@ class _searchResultsState extends State<searchResults> {
         ],
       ),
       Divider(
-        color: Palette.accentSubColor,
+        color: Palette.mainColor,
       ),
     ]);
   }
